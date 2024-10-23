@@ -1,108 +1,49 @@
 package no.hvl.dat100ptc.oppgave6;
 
-import javax.swing.JOptionPane;
-
-import easygraphics.*;
+import easygraphics.EasyGraphics;
 import no.hvl.dat100ptc.oppgave1.GPSPoint;
-import no.hvl.dat100ptc.oppgave2.GPSData;
-import no.hvl.dat100ptc.oppgave2.GPSDataFileReader;
 import no.hvl.dat100ptc.oppgave3.GPSUtils;
-import no.hvl.dat100ptc.oppgave4.GPSComputer;
-import no.hvl.dat100ptc.TODO;
+import no.hvl.dat100ptc.oppgave5.GPSComputer;
 
 public class CycleComputer extends EasyGraphics {
 
-	private static int SPACE = 10;
-	private static int MARGIN = 20;
-	
-	// FIXME: take into account number of measurements / gps points
-	private static int ROUTEMAPXSIZE = 800; 
-	private static int ROUTEMAPYSIZE = 400;
-	private static int HEIGHTSIZE = 200;
-	private static int TEXTWIDTH = 200;
+    private static int MARGIN = 50; 
+    private static int WIDTH = 800;  
+    private static int HEIGHT = 600; 
+    private GPSComputer gpscomputer;
+    private GPSPoint[] gpspoints;
 
-	private GPSComputer gpscomp;
-	private GPSPoint[] gpspoints;
-	
-	private int N = 0;
+    public CycleComputer() {
+        
+        gpscomputer = new GPSComputer("gpsdata.csv"); 
+        gpspoints = gpscomputer.getGPSPoints();
+    }
 
-	private double minlon, minlat, maxlon, maxlat;
+    public static void main(String[] args) {
+       
+    }
 
-	private double xstep, ystep;
-
-	public CycleComputer() {
-
-		String filename = JOptionPane.showInputDialog("GPS data filnavn: ");
-
-		gpscomp = new GPSComputer(filename);
-		gpspoints = gpscomp.getGPSPoints();
-
-	}
-
-	public static void main(String[] args) {
-		launch(args);
-	}
-
-	public void run() {
-
-		// throw new UnsupportedOperationException(TODO.method());
-		
-		N = gpspoints.length; // number of gps points
-
-		minlon = GPSUtils.findMin(GPSUtils.getLongitudes(gpspoints));
-		minlat = GPSUtils.findMin(GPSUtils.getLatitudes(gpspoints));
-
-		maxlon = GPSUtils.findMax(GPSUtils.getLongitudes(gpspoints));
-		maxlat = GPSUtils.findMax(GPSUtils.getLatitudes(gpspoints));
-
-		xstep = xstep();
-		ystep = ystep();
-
-		makeWindow("Cycle Computer", 
-				2 * MARGIN + ROUTEMAPXSIZE,
-				2 * MARGIN + ROUTEMAPYSIZE + HEIGHTSIZE + SPACE);
-
-		bikeRoute();
-
-	}
-
-	// main method to visualise route, position, and current speed/time
-	public void bikeRoute() {
-
-		throw new UnsupportedOperationException(TODO.method());
-		
-	}
-
-	public double xstep() {
-
-		throw new UnsupportedOperationException(TODO.method());
-	
-	}
-
-	public double ystep() {
-
-		throw new UnsupportedOperationException(TODO.method());
-		
-	}
+    public void run() {
     
-	// show current speed and time (i'th GPS point)
-	public void showCurrent(int i) {
-		
-		throw new UnsupportedOperationException(TODO.method());
-		
-	}
+        makeWindow("Cycle Computer", WIDTH, HEIGHT);
+        
+   
+        drawRoute();
+    }
 
-	// show current height (i'th GPS point)
-	public void showHeight(int ybase, int i) {
-		
-		throw new UnsupportedOperationException(TODO.method());
-		
-	}
-	
-	// show current position (i'th GPS point)
-	public void showPosition(int i) {
+    private void drawRoute() {
+      
+        int startX = MARGIN;
+        int startY = HEIGHT / 2;
 
-		throw new UnsupportedOperationException(TODO.method());
-		
-	}
+      
+        for (int i = 1; i < gpspoints.length; i++) {
+            int x1 = startX + i * 5;  
+            int y1 = startY - (int)gpspoints[i-1].getElevation(); 
+            int x2 = startX + (i + 1) * 5;
+            int y2 = startY - (int)gpspoints[i].getElevation();
+
+            drawLine(x1, y1, x2, y2);
+        }
+    }
 }

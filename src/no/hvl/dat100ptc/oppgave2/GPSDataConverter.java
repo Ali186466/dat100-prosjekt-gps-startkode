@@ -9,46 +9,25 @@ public class GPSDataConverter {
 	private static int TIME_STARTINDEX = 11; 
 
 	public static int toSeconds(String timestr) {
-		String s = timestr;
 		
-		String timeStreng = s.substring(11, 13);
-		int timer = Integer.parseInt(timeStreng);
+		int hr = Integer.parseInt(timestr.substring(11,13));
+		int min = Integer.parseInt(timestr.substring(14,16));
+		int sec = Integer.parseInt(timestr.substring(17,19));
 		
-		String minuttString = s.substring(14,16);
-		int minutt = Integer.parseInt(minuttString);
-		
-		String sekundString = s.substring(17, 19);
-		int sekund = Integer.parseInt(sekundString);
-		
-	int totalsekund = (timer * 60 * 60) + (minutt * 60) + sekund;
-			return totalsekund;
-			
-		
-		
+		int secs = hr*60*60 + min*60 + sec;
+		return secs;
 	}
 
-public static GPSPoint convert(String timeStr, String latitudeStr, String longitudeStr, String elevationStr) {
+	public static GPSPoint convert(String timeStr, String latitudeStr, String longitudeStr, String elevationStr) {
 
-		double latitude = Double.parseDouble(latitudeStr);
-	    double longitude = Double.parseDouble(longitudeStr);
-	    double elevation = Double.parseDouble(elevationStr);
-int time = toSeconds(timeStr);
+		int time = toSeconds(timeStr);
+		double lat = Double.parseDouble(latitudeStr);
+		double lon = Double.parseDouble(longitudeStr);		
+		double ele = Double.parseDouble(elevationStr);
 		
-  GPSPoint gpspoint = new GPSPoint(time, latitude, longitude, elevation);
-  System.out.println("Antall sekunder: " + time );
-  System.out.println( "Latitude :" + latitude );
-  System.out.println("Longitude:" + longitude);
-  System.out.println("Elevation:" + elevation);
-//convert("2017-08-13T08:52:26.000Z","60.385390","5.217217","61.9")
-// Returnerer GPSPoint-objektet
-return gpspoint;
+		GPSPoint gpspoint = new GPSPoint(time, lat, lon, ele);
+		
+		return gpspoint;
 	}
 	
-
-	public static void main(String[] args) {
-		
-		convert("2017-08-13T08:52:26.000Z","60.385390","5.217217","61.9");
-
-
-	}
 }

@@ -5,29 +5,52 @@ import no.hvl.dat100ptc.oppgave1.GPSPoint;
 
 public class GPSData {
 
-	    private GPSPoint[] gpsPoints;  // Array for å lagre GPSPoint-objekter
-	    private int antall;            // Teller for antall innlagte punkter
+	private GPSPoint[] gpspoints;
+	protected int antall = 0;
 
-	    // Konstruktør
-	    public GPSData(int n) {
-	        gpsPoints = new GPSPoint[n];  // Initialiserer arrayet med størrelse n
-	        antall = 0;                   // Setter antall til 0, ingen punkter lagret enda
-	    }
+	public GPSData(int antall) {
 
-	    // Metode for å sette inn GPS-punkter
-	    public void insertGPS(GPSPoint gpsPoint) {
-	        if (antall < gpsPoints.length) {
-	            gpsPoints[antall] = gpsPoint;  // Setter inn GPS-punkt i arrayet
-	            antall++;                      // Øker antallet med 1
-	        } else {
-	            System.out.println("Ingen plass til flere GPS-punkter.");
-	        }
-	    }
+		gpspoints = new GPSPoint[antall];
 
-	    // Metode for å skrive ut informasjon om GPS-punkter
-	    public void print() {
-	        for (int i = 0; i < antall; i++) {
-	            System.out.println(gpsPoints[i].toString());  // Skriver ut hvert GPS-punkt
-	        }
-	    }
 	}
+
+	public GPSPoint[] getGPSPoints() {
+		return this.gpspoints;
+	}
+
+	protected boolean insertGPS(GPSPoint gpspoint) {
+
+		boolean inserted = false;
+
+		GPSPoint[] gpoints = this.getGPSPoints();
+		for (int x = 0; x < gpoints.length; x++) {
+			if (x == antall) {
+				gpoints[x] = gpspoint;
+				inserted = true;
+				this.antall++;
+				break;
+			}
+		}
+
+		return inserted;
+
+	}
+
+	public boolean insert(String time, String latitude, String longitude, String elevation) {
+
+		GPSPoint gpspoint;
+
+		this.antall++;
+
+		return true;
+
+	}
+
+	public void print() {
+
+		new GPSData(1).insertGPS(gpspoints[0]);
+		new GPSData(2).insertGPS(gpspoints[1]);
+		new GPSData(3).insertGPS(gpspoints[2]);
+
+	}
+}
